@@ -1,0 +1,17 @@
+{
+  "name": "kokomibot",
+  "version": "1.0.0",
+  "description": "we pray to kokomi",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "SquareRootOf-1",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^13.6.0",
+    "dotenv": "^16.0.0",
+    "mongodb": "^4.4.0",
+    "mongoose": "^6.2.3"
+  }
+}
