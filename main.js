@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-//const dotenv = require('dotenv').config();
+const dotenv = require('dotenv').config();
 const mongoose = require('mongoose');
 const profileSchema = require('./profile-schema');
 
