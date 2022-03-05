@@ -7,7 +7,7 @@ module.exports = {
     fulldesc: 'View a command, category, or other info\n`k$help [command/category/item]`',
     category: 'general',
     callback: (message, args, client, commands) => {
-        const categories = ['general', 'currency', 'dev', 'misc']
+        const categories = ['general', 'currency', 'dev', 'misc', 'moderator']
         const embed = new MessageEmbed()
         //.setDescription('Commands: `help`, `ping`, `pray`, `kokomi`, `kokomize [text]`, `kokoguide`')
         .setColor('BLURPLE')

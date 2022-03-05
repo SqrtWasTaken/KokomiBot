@@ -1,4 +1,4 @@
-const { Collection, MessageEmbed } = require('discord.js');
+const { Collection, MessageEmbed, Permissions } = require('discord.js');
 const fs = require('fs');
 const getFiles = require('./get-files');
 const cooldowns = new Map();
@@ -50,6 +50,21 @@ module.exports = async (client) => {
 
         if (!cmd) return;
 
+        //permissions
+
+        if(cmd.permissions){
+            let invalidPerms = [];
+            cmd.permissions.forEach(p => {
+                //console.log(p, cmd.permissions)
+                if(!message.member.permissions.has(p)){
+                    invalidPerms.push(p);
+                }
+            });
+            if(invalidPerms.length>0){
+                return message.channel.send(`${client.emojis.cache.get('943281858601443348')} You need the \`${invalidPerms.join(', ')}\` permission(s) to run this command!`)
+            }
+        }
+
         //cds haha losers
 
         if(!cooldowns.has(cmd)){
@@ -78,19 +93,19 @@ module.exports = async (client) => {
 
         //ping, get data
 
-        let pingedUser = ['','','',''];
+        let pingedUser = {};
 
         if((message.mentions.users.size>0) && (args[0]===`<@!${message.mentions.users.first().id}>`)){
-            pingedUser[0] = message.mentions.users.first().id;
-            pingedUser[1] = message.mentions.users.first().username;
-            pingedUser[2] = message.mentions.users.first().avatar;
-            pingedUser[3] = await profileModel.findOne({ userID: pingedUser[0] });
+            pingedUser.user = message.mentions.users.first();
+            pingedUser.guildMember = message.guild.members.cache.get(pingedUser.user.id)
+            pingedUser.profileData = await profileModel.findOne({ userID: pingedUser.user.id });
+            pingedUser.self = false;
         } else {
-            pingedUser[0] = message.author.id;
-            pingedUser[1] = message.author.username;
-            pingedUser[2] = message.author.avatar;
-            pingedUser[3] = profileData;
+            pingedUser.user = message.author;
+            pingedUser.profileData = profileData;
+            pingedUser.self = true;
         }
+        //console.log(pingedUser)
 
         try {
             if(commandName === 'help'){

@@ -8,9 +8,9 @@ module.exports = {
     category: 'currency',
     callback: async (message, args, client, profileData, pingedUser) => {
         const embed = new MessageEmbed()
-            .setAuthor({ name: `${pingedUser[1]}'s inventory`, iconURL: `https://cdn.discordapp.com/avatars/${pingedUser[0]}/${pingedUser[2]}.webp` })
-            .setDescription(`${client.emojis.cache.get('946927536682721331')} **Sango Pearls**: ${pingedUser[3].sangoPearls}
-            \n${client.emojis.cache.get('946931162335547402')} **Dew of Repudiation**: ${pingedUser[3].dewOfRepudiation}`)
+            .setAuthor({ name: `${pingedUser.user.username}'s inventory`, iconURL: `https://cdn.discordapp.com/avatars/${pingedUser.user.id}/${pingedUser.user.avatar}.webp` })
+            .setDescription(`${client.emojis.cache.get('946927536682721331')} **Sango Pearls**: ${pingedUser.profileData.sangoPearls}
+            \n${client.emojis.cache.get('946931162335547402')} **Dew of Repudiation**: ${pingedUser.profileData.dewOfRepudiation}`)
 
         message.channel.send({embeds: [embed]})
     }
