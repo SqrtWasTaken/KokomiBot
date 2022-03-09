@@ -3,7 +3,7 @@ const profileModel = require('../profile-schema');
 
 module.exports = {
     name: 'pray',
-    description: 'p r a y for sango pearls :pray: (and ping duo)',
+    description: 'p r a y for sango pearls :pray:',
     fulldesc: 'Pray to kokogod for sango pearls!\n**Rewards:** 5-10 Sango Pearls, 0-1 Dew of Repudiation',
     category: 'currency',
     cooldown: 10,
@@ -40,7 +40,7 @@ module.exports = {
         
         await profileModel.findOneAndUpdate(
             { userID: message.author.id },
-            { $inc: { sangoPearls: s, dewOfRepudiation: d } }
+            { $inc: { "items.sangoPearls": s, "items.dewOfRepudiation": d } }
         )
 
         message.reply({embeds: [embed]});

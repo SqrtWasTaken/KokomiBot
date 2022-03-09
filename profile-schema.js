@@ -9,11 +9,19 @@ const schema = new mongoose.Schema({
         type: String,
         required: true
     },
-    sangoPearls: {
-        type: Number
+    items: {
+        sangoPearls: { type: Number, default: 0},
+        dewOfRepudiation: {type: Number, default: 0},
+        specter1: { type: Number, default: 0},
+        specter2: { type: Number, default: 0},
+        specter3: { type: Number, default: 0},
     },
-    dewOfRepudiation: {
-        type: Number
+    
+    progression: {
+        xp: { type: Number, default: 0 },
+        ascended: { type: Boolean, default: false },
+        weapon: { type: String, default: '' },
+        
     }
 })
 

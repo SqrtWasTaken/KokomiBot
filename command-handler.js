@@ -37,6 +37,10 @@ module.exports = async (client) => {
                     serverID: message.guild.id,
                     sangoPearls: 0,
                     dewOfRepudiation: 0,
+                    kokomi: {
+                        xp: 0,
+                        weapon: ''
+                    }
                 })
                 profile.save();
             }
