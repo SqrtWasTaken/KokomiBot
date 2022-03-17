@@ -7,7 +7,7 @@ module.exports = {
     description: 'Go on an adventure for xp!',
     fulldesc: 'Go on a hunting trip to collect spectral drops and XP\n**Rewards:** 1-5 Spectral Husk, 0-2 Spectral Heart, 0-1 Spectral Nucleus',
     category: 'currency',
-    cooldown: 0,
+    cooldown: 60,
     callback: async (message, args, client, profileData) => {
         const huntMsgs = [
             'You take a waverider to Watatsumi and slap some specters in the face.',
@@ -42,7 +42,7 @@ module.exports = {
         
         await profileModel.findOneAndUpdate(
             { userID: message.author.id },
-            { $inc: { /*"progression.xp": x,*/ "items.specter1": s1, "items.specter2": s2, "items.specter3": s3 } }
+            { $inc: { "items.specter1": s1, "items.specter2": s2, "items.specter3": s3 } }
         )
         updateXP.update(message.author.id, x);
         message.reply({embeds: [embed]});
