@@ -4,17 +4,18 @@ module.exports = {
     fulldesc: 'Ban a member for being unworthy of kokomi\n`dekokomize [member]`',
     category: 'moderator',
     permissions: ['BAN_MEMBERS'],
-    callback: (message, args, client, profileData, pingedUser) => {
-        if(pingedUser.user === message.author || !args[0]){
-            return message.channel.send('Please provide a valid user (that isn\'t yourself)!')
+    aliases: ['ban'],
+    callback: (message, args, client, profileData, target) => {
+        console.log(message.guild.bans)
+        if(target.user === message.author || !args[0]){
+            return message.channel.send('Please provide a valid user (that isn\'t yourself)!');
         }
-        if(!(pingedUser.guildMember.bannable)){
-            return message.channel.send('Cannot ban this user!')
+        if(!(target.guildMember.bannable)){
+            return message.channel.send('Cannot ban this user!');
         }
 
-        //pingedUser.guildMember.ban()
-        message.guild.members.ban(pingedUser.user.id, { reason: 'Kokomi deemed this user unworthy'})
-        message.channel.send(`${pingedUser.user.username} was banned for being unworthy of Kokomi ${client.emojis.cache.get('943704300553662474')}`)
-        pingedUser.user.send(`You have been banned from ${message.guild.name}.`)
+        message.channel.send(`${target.user.username} was banned for being unworthy of Kokomi ${client.emojis.cache.get('943704300553662474')}`);
+        target.user.send(`You have been banned from ${message.guild.name}.`);
+        message.guild.members.ban(target.user.id, { reason: 'Kokomi deemed this user unworthy'});
     }
 }

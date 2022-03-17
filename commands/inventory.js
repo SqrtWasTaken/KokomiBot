@@ -1,13 +1,13 @@
 const { MessageEmbed } = require("discord.js")
-const profileModel = require('../profile-schema')
 
 module.exports = {
-    name: 'inv',
+    name: 'inventory',
     description: 'View your inventory',
     fulldesc: 'View your item amounts and how rich/poor u are :P',
     category: 'currency',
-    callback: async (message, args, client, profileData, pingedUser) => {
-        if(!pingedUser.profileData){
+    aliases: ['inv', 'items'],
+    callback: async (message, args, client, profileData, target) => {
+        if(!target.profileData){
             return message.reply('That user does not have a Kokomi profile!')
         }
 
@@ -20,14 +20,14 @@ module.exports = {
         }
 
         let inv = '';
-        for(const item in pingedUser.profileData.items){
-            if(pingedUser.profileData.items[item]>0){
-                inv = `${inv}${itemNames[item]}: ${pingedUser.profileData.items[item]}\n`
+        for(const item in target.profileData.items){
+            if(target.profileData.items[item]>0){
+                inv = `${inv}${itemNames[item]}: ${target.profileData.items[item]}\n`
             }
         }
 
         const embed = new MessageEmbed()
-            .setAuthor({ name: `${pingedUser.user.username}'s inventory`, iconURL: `https://cdn.discordapp.com/avatars/${pingedUser.user.id}/${pingedUser.user.avatar}.webp` })
+            .setAuthor({ name: `${target.user.username}'s inventory`, iconURL: `https://cdn.discordapp.com/avatars/${target.user.id}/${target.user.avatar}.webp` })
             .setDescription(inv)
             /*.setDescription(`${client.emojis.cache.get('946927536682721331')} **Sango Pearls**: ${pingedUser.profileData.items.sangoPearls}
             \n${client.emojis.cache.get('946931162335547402')} **Dew of Repudiation**: ${pingedUser.profileData.items.dewOfRepudiation}`)*/

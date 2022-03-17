@@ -35,11 +35,16 @@ module.exports = async (client) => {
                 let profile = await profileModel.create({
                     userID: message.author.id,
                     serverID: message.guild.id,
-                    sangoPearls: 0,
-                    dewOfRepudiation: 0,
-                    kokomi: {
+                    items: {
+                        sangoPearls: 0,
+                        dewOfRepudiation: 0,
+                        specter1: 0,
+                        specter2: 0,
+                        specter3: 0,
+                    },
+                    progression: {
                         xp: 0,
-                        weapon: ''
+                        ascension: 0,
                     }
                 })
                 profile.save();
@@ -48,9 +53,20 @@ module.exports = async (client) => {
             console.log(error)
         }
 
+        //aliases
+
+        let cmd;
+
         const args = message.content.slice(2).split(/ +/);
         const commandName = args.shift().toLowerCase();
-        const cmd = commands[commandName];
+        for(const command in commands){
+            if(commands[command].aliases && commands[command].aliases.includes(commandName)){
+                cmd = commands[command];
+            }
+        }
+        if(commands[commandName]){
+            cmd = commands[commandName];
+        }
 
         if (!cmd) return;
 
@@ -97,25 +113,25 @@ module.exports = async (client) => {
 
         //ping, get data
 
-        let pingedUser = {};
+        let target = {};
 
         if((message.mentions.users.size>0) && (args[0]===`<@!${message.mentions.users.first().id}>`)){
-            pingedUser.user = message.mentions.users.first();
-            pingedUser.guildMember = message.guild.members.cache.get(pingedUser.user.id)
-            pingedUser.profileData = await profileModel.findOne({ userID: pingedUser.user.id });
-            pingedUser.self = false;
+            target.user = message.mentions.users.first();
+            target.guildMember = message.guild.members.cache.get(target.user.id)
+            target.profileData = await profileModel.findOne({ userID: target.user.id });
+            target.self = false;
         } else {
-            pingedUser.user = message.author;
-            pingedUser.profileData = profileData;
-            pingedUser.self = true;
+            target.user = message.author;
+            target.profileData = profileData;
+            target.self = true;
         }
-        //console.log(pingedUser)
+        //console.log(target)
 
         try {
             if(commandName === 'help'){
                 commands['help'].callback(message, args, client, commands);
             } else {
-                cmd.callback(message, args, client, profileData, pingedUser);
+                cmd.callback(message, args, client, profileData, target);
             }
         } catch (error) {
             console.error(error);

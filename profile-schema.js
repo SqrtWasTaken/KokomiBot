@@ -15,13 +15,17 @@ const schema = new mongoose.Schema({
         specter1: { type: Number, default: 0},
         specter2: { type: Number, default: 0},
         specter3: { type: Number, default: 0},
+        gem1: { type: Number, default: 0 },
+        gem2: { type: Number, default: 0 },
+        gem3: { type: Number, default: 0 },
+        gem4: { type: Number, default: 0 },
     },
     
     progression: {
         xp: { type: Number, default: 0 },
-        ascended: { type: Boolean, default: false },
-        weapon: { type: String, default: '' },
-        
+        level: { type: Number, default: 1 },
+        ascension: { type: Number, default: 0 },
+        //weapon: { type: String, default: '' }, 
     }
 })
 

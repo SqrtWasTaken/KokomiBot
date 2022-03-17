@@ -9,17 +9,27 @@ module.exports = {
     callback: (message, args, client, commands) => {
         const categories = ['general', 'currency', 'dev', 'misc', 'moderator']
         const embed = new MessageEmbed()
-        //.setDescription('Commands: `help`, `ping`, `pray`, `kokomi`, `kokomize [text]`, `kokoguide`')
         .setColor('BLURPLE')
         .setFooter({text: 'add k$ before every command!'})
 
         if(args[0] in commands){
-            embed.setTitle(args[0]).setDescription(commands[args[0]].fulldesc)
+            const cmd = commands[args[0]];
+            embed.setTitle(args[0]).setDescription(cmd.fulldesc)
+            if(cmd.aliases){
+                let a = [];
+                for(const alias of cmd.aliases){
+                    a.push(`\`${alias}\``);
+                }
+                embed.addField('Aliases', a.join(', '));
+            }
+            if(cmd.cooldown){
+                embed.addField('Cooldown', cmd.cooldown);
+            }
         } else if(categories.includes(args[0])){
             embed.setTitle(`${args[0][0].toUpperCase() + args[0].substring(1)} commands`)
             for(cmd in commands){
                 if(commands[cmd].category===args[0]){
-                    embed.addField(commands[cmd].name, commands[cmd].description)
+                    embed.addField(commands[cmd].name, commands[cmd].description);
                 }
             }
         } else if(args[0]===undefined) {
@@ -30,12 +40,6 @@ module.exports = {
         } else {
             embed.setTitle('Help').setDescription('Kokomi is confused!\nView other commands with `k$help`')
         }
-
-        /*for(cmd in commands){
-            if(!(commands[cmd].category === 'dev')){
-                embed.addFields({name: commands[cmd].name, value: commands[cmd].description})
-            }
-        }*/
 
         message.channel.send({embeds: [embed]})
     }
