@@ -6,7 +6,6 @@ module.exports = {
     permissions: ['BAN_MEMBERS'],
     aliases: ['ban'],
     callback: (message, args, client, profileData, target) => {
-        console.log(message.guild.bans)
         if(target.user === message.author || !args[0]){
             return message.channel.send('Please provide a valid user (that isn\'t yourself)!');
         }
@@ -15,7 +14,7 @@ module.exports = {
         }
 
         message.channel.send(`${target.user.username} was banned for being unworthy of Kokomi ${client.emojis.cache.get('943704300553662474')}`);
-        target.user.send(`You have been banned from ${message.guild.name}.`);
+        client.users.cache.get(target.user.id).send(`You have been banned from ${message.guild.name}.`);
         message.guild.members.ban(target.user.id, { reason: 'Kokomi deemed this user unworthy'});
     }
 }
